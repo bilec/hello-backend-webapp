@@ -15,3 +15,11 @@ Simple web app
     Content-Length: 116
 
     {"greeting":"hello from backend","time":"2022-11-22 17:48:11.222477533 +0000 UTC m=+74.265783540","ip":"172.22.0.1"}
+
+## Docker image
+
+https://hub.docker.com/r/bilec/hello-backend-webapp
+
+```shell
+docker run -d -p 8080:8080 bilec/hello-backend-webapp
+```
