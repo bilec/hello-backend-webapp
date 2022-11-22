@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 )
 
 type Response struct {
@@ -46,10 +47,10 @@ func main() {
 
 func backedHandler(w http.ResponseWriter, r *http.Request) {
 	greeting := GetGreetingFromRequest(r) + " from backend"
-	time := "now"
+	timeString := time.Now().String()  
 	ip := "localhost"
 
-	response := Response{greeting, time, ip}
+	response := Response{greeting, timeString, ip}
 	jsonResponse, err := json.Marshal(response)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
