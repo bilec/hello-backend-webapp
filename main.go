@@ -45,7 +45,7 @@ func main() {
 }
 
 func backedHandler(w http.ResponseWriter, r *http.Request) {
-	greeting := "hello from backend"
+	greeting := GetGreetingFromRequest(r) + " from backend"
 	time := "now"
 	ip := "localhost"
 
@@ -58,4 +58,12 @@ func backedHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(jsonResponse)
+}
+
+func GetGreetingFromRequest(r *http.Request) string {
+	keys, ok := r.URL.Query()["greeting"]
+	if ok {
+        return keys[0]
+    }
+	return ""
 }
