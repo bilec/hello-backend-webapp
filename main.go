@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 )
@@ -48,7 +49,7 @@ func main() {
 func backedHandler(w http.ResponseWriter, r *http.Request) {
 	greeting := GetGreetingFromRequest(r) + " from backend"
 	timeString := time.Now().String()  
-	ip := "localhost"
+	ip := GetRealIPFromRequest(r)
 
 	response := Response{greeting, timeString, ip}
 	jsonResponse, err := json.Marshal(response)
@@ -67,4 +68,16 @@ func GetGreetingFromRequest(r *http.Request) string {
         return keys[0]
     }
 	return ""
+}
+
+func GetRealIPFromRequest(r *http.Request) string {
+    IPAddress := r.Header.Get("X-Real-IP")
+    if IPAddress == "" {
+        IPAddress = r.Header.Get("X-Forwarder-For")
+    }
+    if IPAddress == "" {
+        IPAddress = r.RemoteAddr
+    }
+	
+    return strings.Split(IPAddress, ":")[0]
 }
