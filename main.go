@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"log"
 	"net/http"
 	"os"
@@ -44,5 +45,17 @@ func main() {
 }
 
 func backedHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("hello from backend"))
+	greeting := "hello from backend"
+	time := "now"
+	ip := "localhost"
+
+	response := Response{greeting, time, ip}
+	jsonResponse, err := json.Marshal(response)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonResponse)
 }
