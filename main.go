@@ -9,6 +9,12 @@ import (
 	"syscall"
 )
 
+type Response struct {
+	Greeting string `json:"greeting"`
+	Time string `json:"time"`
+	Ip string `json:"ip"`
+}
+
 var port = "8080"
 
 func init() {
